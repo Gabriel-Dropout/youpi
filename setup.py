@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='youpi',
-    version='0.1',
+    version='0.1.2',
     author='Gabriel-Dropout',
     author_email='winterday0210@gmail.com',
     description='Very light and incredibly simple python library for downloading youtube video. It was inspired by pytube.',

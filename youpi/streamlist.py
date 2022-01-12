@@ -1,5 +1,5 @@
 from typing import List
-from stream import Stream
+from .stream import Stream
 
 
 class StreamList:
