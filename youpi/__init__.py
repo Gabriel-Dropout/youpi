@@ -1,3 +1,3 @@
-from youtube import YouTube
+from .youtube import YouTube
 
 __all__ = ['YouTube']

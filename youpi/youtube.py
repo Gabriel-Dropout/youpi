@@ -2,9 +2,9 @@ from urllib.request import Request, urlopen
 import time
 import json
 
-from cache import cached
-from streamlist import StreamList
-from stream import Stream
+from .cache import cached
+from .streamlist import StreamList
+from .stream import Stream
 
 
 class YouTube:
