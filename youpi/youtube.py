@@ -10,7 +10,7 @@ from .stream import Stream
 class YouTube:
     def __init__(self, url):
         self.url = url
-        self.raw = self.get_info(url, 'web')
+        self.raw = self.get_info(url)
         stream_list = []
         
         for i in self.raw['streamingData']['formats']:
@@ -22,7 +22,7 @@ class YouTube:
         self.streams = StreamList(stream_list)
     
     @cached(is_classmethod=True, expireFunc = lambda raw: time.time() + int(raw['streamingData']['expiresInSeconds'])-30)
-    def get_info(self, video_id, client='android_embed'):
+    def get_info(self, video_id, client='android'):
         headers = {'Content-Type': 'application/json', "User-Agent": "Mozilla/5.0", "accept-language": "ko_KR,en-US;q=0.8,en;q=0.6"}
         data = {
             'android':{'context': {'client': {'clientName': 'ANDROID', 'clientVersion': '16.20'}}},

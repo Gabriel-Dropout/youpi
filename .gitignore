@@ -15,3 +15,7 @@ dist/
 
 # VS Code 관련 파일
 .vscodeㅎ
+
+#다운로드한 동영상 파일
+*.mp4
+*.webm
