@@ -1,2 +1,9 @@
 #개발 중 테스트 목적으로 사용되는 폴더
 /devtest
+
+#api 캐시
+Cache_*.pkl
+
+#파이썬 캐시
+*.pyc
+__pycache__
