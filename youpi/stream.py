@@ -1,8 +1,10 @@
 from urllib.request import urlopen, Request
+import re
 
 class Stream:
     def __init__(
         self,
+        singleton,
         itag,
         url,
         datatype,
@@ -14,6 +16,7 @@ class Stream:
         bitrate = None,
         samplerate = None
     ):
+        self.singleton = singleton
         self.itag=itag
         self.url=url
         self.datatype=datatype
@@ -34,9 +37,39 @@ class Stream:
             return f'<{self.itag}, audio({self.extension}), {self.bitrate/1000}kbps/{self.samplerate}kHz, acodec={self.acodec}>'
         return 'hello'
         
-    def download(self, filename='filename'):
+    def download(self, filename: str = None):
         MB = 1024*1024
         headers = {'Content-Type': 'application/json', "User-Agent": "Mozilla/5.0", "accept-language": "ko_KR,en-US;q=0.8,en;q=0.6"}
+        
+         #  from pytube.helper; Thx pytube!
+        def safe_filename(s: str, max_length: int = 255):
+            ntfs_characters = [chr(i) for i in range(0, 31)]
+            characters = [
+                r'"',
+                r"\#",
+                r"\$",
+                r"\%",
+                r"'",
+                r"\*",
+                r"\,",
+                r"\.",
+                r"\/",
+                r"\:",
+                r'"',
+                r"\;",
+                r"\<",
+                r"\>",
+                r"\?",
+                r"\\",
+                r"\^",
+                r"\|",
+                r"\~",
+                r"\\\\",
+            ]
+            pattern = "|".join(ntfs_characters + characters)
+            regex = re.compile(pattern, re.UNICODE)
+            filename = regex.sub("", s)
+            return filename[:max_length].rsplit(" ", 0)[0]
         
         def stream(url, chunk_size = 9437184):
             file_size = chunk_size  # fake filesize to start
@@ -58,7 +91,11 @@ class Stream:
                 downloaded += len(chunk)
                 yield chunk, file_size, downloaded
             return
-
+        
+        if not filename:
+            filename = self.singleton.title
+        filename = safe_filename(filename)
+        
         with open(filename+'.'+self.extension, "wb") as f:
             for chunk, file_size, downloaded in stream(self.url, chunk_size=10*MB):
                 print(f'{downloaded/MB:.1f}/{file_size/MB:.1f} MBs downloading...')
