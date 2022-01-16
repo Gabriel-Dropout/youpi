@@ -1,6 +1,7 @@
 from urllib.request import urlopen, Request
 import re
 
+
 class Stream:
     def __init__(
         self,
@@ -38,9 +39,6 @@ class Stream:
         return 'hello'
         
     def download(self, filename: str = None):
-        MB = 1024*1024
-        headers = {'Content-Type': 'application/json', "User-Agent": "Mozilla/5.0", "accept-language": "ko_KR,en-US;q=0.8,en;q=0.6"}
-        
          #  from pytube.helper; Thx pytube!
         def safe_filename(s: str, max_length: int = 255):
             ntfs_characters = [chr(i) for i in range(0, 31)]
@@ -92,11 +90,14 @@ class Stream:
                 yield chunk, file_size, downloaded
             return
         
+        MB = 1024*1024
+        headers = {'Content-Type': 'application/json', "User-Agent": "Mozilla/5.0", "accept-language": "ko_KR,en-US;q=0.8,en;q=0.6"}
+        
         if not filename:
             filename = self.singleton.title
         filename = safe_filename(filename)
         
-        with open(filename+'.'+self.extension, "wb") as f:
+        with open(f'{filename}.{self.extension}', "wb") as f:
             for chunk, file_size, downloaded in stream(self.url, chunk_size=10*MB):
                 print(f'{downloaded/MB:.1f}/{file_size/MB:.1f} MBs downloading...')
                 f.write(chunk)

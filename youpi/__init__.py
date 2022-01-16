@@ -4,6 +4,7 @@ from .streamlist import StreamList
 from .youtube import YouTube
 from .semi_singleton import SemiSingleton
 
+
 __all__ = ['cached', 'Stream', 'StreamList', 'YouTube', 'SemiSingleton']
 
 '''SAMPLE

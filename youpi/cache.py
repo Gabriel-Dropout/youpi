@@ -4,6 +4,7 @@ import pickle
 import time
 from functools import wraps
 
+
 def cached(is_classmethod=False, expireFunc=None):
     def decorator(func):
         def save_cache(func):

@@ -80,6 +80,27 @@ class StreamList:
             ret = [s for s in ret if filter(s)]
         return StreamList(ret)
     
+    def sort(
+        self,
+        key: str = 'resolution',
+        reverse: bool = False
+    ):
+        
+        if key=='res' or key=='resolution':
+            key_func = lambda x: x.res if x.res else 0
+        elif key=='fps' or key=='frame':
+            key_func = lambda x: x.fps if x.fps else 0
+        elif key=='datatype' or key=='type':
+            key_func = lambda x: x.datatype
+        elif key=='extentsion' or key=='ext':
+            key_func = lambda x: x.extension
+        elif key=='bitrate' or key=='br':
+            key_func = lambda x: x.bitrate if x.bitrate else 0
+        
+        ordered_list = sorted(self.stream_list, key=key_func, reverse=reverse)
+        print(ordered_list)
+        return StreamList(ordered_list)
+    
     def __repr__(self):
         ret = ''
         for s in self.stream_list:
